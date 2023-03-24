@@ -10,7 +10,7 @@ RUN git clone https://github.com/Satcomx00-x00/AI-Guess-Price-BTC.git .
 RUN pip install -r requirements.txt
 
 # Copy the prediction script to the working directory
-COPY predict.py .
+COPY AI-Guess-Price-BTC/* .
 
 # Set the entrypoint to the prediction script
 ENTRYPOINT ["python", "predict.py"]
