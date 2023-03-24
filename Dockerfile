@@ -4,7 +4,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Clone the project from GitHub
-RUN git clone https://github.com/yourusername/yourproject.git .
+RUN git clone https://github.com/Satcomx00-x00/AI-Guess-Price-BTC.git .
 
 # Install any necessary dependencies
 RUN pip install -r requirements.txt
