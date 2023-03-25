@@ -3,6 +3,6 @@ tensorflow_intel
 ccxt==2.7.3
 pandas==1.5.2
 ta==0.10.2
-TA_Lib==0.4.24
 tensorflow==2.12.0
 yfinance==0.2.13
+sklearn
