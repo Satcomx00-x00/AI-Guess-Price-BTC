@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2023-01-01T00:00:00+00:00",
+    "name": "AI Guess Price BTC",
+    "author": "raspsatcombot@gmail.com",
+    "description": "AI Guess Price BTC",
+    "features": null,
+    "images": [
+        "satcomx00\/ai-guess-price-btc:latest"
+    ],
+    "file_denylist": [],
+    "startup": "python3 predict.py",
+    "config": {
+        "files": "{}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\napt-get update \\\r\n&& apt-get dist-upgrade -y \\\r\n&& apt-get autoremove -y \\\r\n&& apt-get autoclean \\\r\n&& \/usr\/local\/bin\/python -m pip install --upgrade pip \\\r\n&& pip install -r requirements.txt",
+            "container": "satcomx00\/ai-guess-price-btc:latest",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}

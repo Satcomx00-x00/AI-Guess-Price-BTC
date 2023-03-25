@@ -6,6 +6,7 @@ import tensorflow as tf
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 import warnings
+
 warnings.filterwarnings('ignore', 'The behavior of `series.*`', FutureWarning)
 warnings.filterwarnings('ignore', 'invalid value encountered', RuntimeWarning)
 import pickle

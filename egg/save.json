@@ -1,0 +1,68 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v1",
+        "update_url": null
+    },
+    "exported_at": "2022-03-20T09:58:04+01:00",
+    "name": "Grid Seeker",
+    "author": "raspsatcombot@gmail.com",
+    "description": "Grid Seeker is a easy to use grid algorithmL.",
+    "features": null,
+    "images": [
+        "satcomx00\/ai-guess-price-btc:latest"
+    ],
+    "file_denylist": [],
+    "startup": "python3 main.py -e {{EXCHANGE_NAME}} -a {{env.API_KEY}} -s {{SECRET_KEY}}",
+    "config": {
+        "files": "{}",
+        "startup": "{}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\napt-get update \\\r\n&& apt-get dist-upgrade -y \\\r\n&& apt-get autoremove -y \\\r\n&& apt-get autoclean \\\r\n&& \/usr\/local\/bin\/python -m pip install --upgrade pip \\\r\n&& pip install -r requirements.txt",
+            "container": "satcomx00\/ai-guess-price-btc:latest",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "[REQUIRED] USDT Volume to trade",
+            "description": "Total USDT Volume to trade with algorithm.",
+            "env_variable": "VOLUME",
+            "default_value": "10",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|min:2"
+        },
+        {
+            "name": "[REQUIRED] Echange Names",
+            "description": "Set the on wich exchang you want to trade (FTX, BINANCE)",
+            "env_variable": "EXCHANGE_NAME",
+            "default_value": "NONE",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:NONE,FTX,BINANCE"
+        },
+        {
+            "name": "[REQUIRED] API Key",
+            "description": "Exchange API Key",
+            "env_variable": "API_KEY",
+            "default_value": "NONE",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        },
+        {
+            "name": "[REQUIRED] Secret Key",
+            "description": "Exchange Secret Key",
+            "env_variable": "SECRET_KEY",
+            "default_value": "NONE",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string"
+        }
+    ]
+}
