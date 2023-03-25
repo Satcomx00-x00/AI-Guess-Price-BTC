@@ -16,7 +16,7 @@ from time import sleep as sl
 import ccxt
 import numpy as np
 import pandas as pd
-import talib as ta
+# import talib as ta
 import yfinance as yf
 from ta import add_all_ta_features
 from tensorflow.keras.models import load_model

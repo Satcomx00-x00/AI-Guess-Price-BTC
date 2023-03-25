@@ -13,11 +13,11 @@
         "satcomx00\/ai-guess-price-btc:latest"
     ],
     "file_denylist": [],
-    "startup": "python3 predict.py",
+    "startup": "pip install -r requirements.txt && python3 predict.py",
     "config": {
         "files": "{}",
         "startup": "{}",
-        "logs": "{}",
+        "logs": "{/home/container/logs.log}",
         "stop": "^C"
     },
     "scripts": {

@@ -8,11 +8,11 @@ WORKDIR /home/container
 RUN git clone https://github.com/Satcomx00-x00/AI-Guess-Price-BTC.git .
 
 
-# RUN python -m pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
-COPY * .
+COPY * ./
 # Install any necessary dependencies
-# RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copy the prediction script to the working directory
 
