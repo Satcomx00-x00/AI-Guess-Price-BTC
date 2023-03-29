@@ -136,5 +136,5 @@ class PredictionMessage:
 
 
 # if __name__ == '__main__':
-#     prediction_message = PredictionMessage()
-#     asyncio.run(prediction_message.run())
+prediction_message = PredictionMessage(TOKEN, CHANNEL)
+asyncio.run(prediction_message.run())
