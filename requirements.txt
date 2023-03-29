@@ -1,7 +1,12 @@
 ccxt==2.7.3
+discord.py==2.2.2
+matplotlib==3.6.2
 numpy==1.24.2
 pandas==1.5.2
+python-dotenv==1.0.0
+rich==13.3.3
 ta==0.10.2
 tensorflow==2.12.0
 tensorflow_intel==2.10.0
 yfinance==0.2.13
+discord
