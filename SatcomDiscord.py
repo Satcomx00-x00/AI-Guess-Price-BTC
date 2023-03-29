@@ -32,7 +32,6 @@ class PredictionMessage:
             await self.message.edit(embed=embed)
 
     async def on_ready(self):
-
         print(f'{self.bot.user} has connected to Discord!')
         # if message_id.txt exists, read the message ID from it
         if os.path.exists('message_id.txt'):
@@ -50,6 +49,7 @@ class PredictionMessage:
             embed = discord.Embed(title='Prediction',
                                   description='New prediction available',
                                   color=0x00ff00)
+            
             for key, value in data.items():
                 embed.add_field(name=key, value=value, inline=True)
             self.message = await self.send_embed_message(embed)
@@ -58,10 +58,6 @@ class PredictionMessage:
             with open('message_id.txt', 'w') as f:
                 f.write(str(self.message.id))
 
-        # with open('message_id.txt', 'r') as f:
-        #     message_id = int(f.read().strip())
-        # await modify_message(await message.channel.fetch_message(message_id),
-        #                      'Hello, world!')
 
     async def update_prediction(self):
         print('Updating prediction...')
@@ -85,9 +81,8 @@ class PredictionMessage:
             embed.add_field(name=key,
                             value="```" + str(value) + "```",
                             inline=True)
-        # add timestamp to the embed
-        # embed.timestamp = datetime.utcnow()
-        # set timestamp + 2 hours
+            print(f'Sended !')
+
         embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(
             hours=2)
 
@@ -102,17 +97,16 @@ class PredictionMessage:
         # print the current time every 3 seconds
         await self.bot.wait_until_ready()
         await asyncio.sleep(4)
-        try:
 
+        try:
             while not self.bot.is_closed():
                 await self.update_prediction()
-                await asyncio.sleep(2)
+                await asyncio.sleep(5)
         except Exception as e:
             # send the error in the channel
             print(e)
             channel = self.bot.get_channel(self.channel_id)
             self.message = await channel.send(e)
-
 
     async def run(self):
         print('Starting bot...')
