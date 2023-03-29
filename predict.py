@@ -43,7 +43,7 @@ import asyncio
 #                     help='The channel ID to send messages to')
 # args = parser.parse_args()
 from dotenv import load_dotenv
-
+load_dotenv()
 TOKEN = str(os.getenv('DISCORD_TOKEN'))
 CHANNEL = int(os.getenv('DISCORD_CHANNEL_ID'))
 
