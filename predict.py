@@ -22,26 +22,26 @@ import pandas as pd
 # import talib as ta
 from ta import add_all_ta_features
 from tensorflow.keras.models import load_model
-# from SatcomDiscord import PredictionMessage
+from SatcomDiscord import PredictionMessage
 from threading import Thread
 import asyncio
 # docker run -it --rm -e DISCORD_TOKEN=MTA5MDM4MjU4Mzg5Mzg1NjMwNg.GZajTp.s8xWLSqe16EztPZ47zq4xCkbDU36LUXfIwMA_E -e DISCORD_CHANNEL=1090381983244365904 satcomx00/ai-guess-price-btc:1.0
 
-# import argparse
-# parser = argparse.ArgumentParser(prog='AI-Guess-Bot',
-#                                  description='Cool Prog',
-#                                  epilog='Text at the bottom of help')
-# parser.add_argument('-t',
-#                     '--token',
-#                     type=str,
-#                     required=True,
-#                     help='The Discord bot token')
-# parser.add_argument('-c',
-#                     '--channel',
-#                     type=int,
-#                     required=True,
-#                     help='The channel ID to send messages to')
-# args = parser.parse_args()
+import argparse
+parser = argparse.ArgumentParser(prog='AI-Guess-Bot',
+                                 description='Cool Prog',
+                                 epilog='Text at the bottom of help')
+parser.add_argument('-t',
+                    '--token',
+                    type=str,
+                    required=True,
+                    help='The Discord bot token')
+parser.add_argument('-c',
+                    '--channel',
+                    type=int,
+                    required=True,
+                    help='The channel ID to send messages to')
+args = parser.parse_args()
 # from dotenv import load_dotenv
 
 # TOKEN = os.getenv('DISCORD_TOKEN')
@@ -56,20 +56,20 @@ with open('scalers/scaler_close.pkl', 'rb') as f:
     scaler_close = pickle.load(f)
 
 
-# def message():
-#     try:
-#         prediction_message = PredictionMessage(TOKEN, CHANNEL)
-#         asyncio.run(prediction_message.run())
-#     except Exception as e:
-#         print("Error")
-#         raise e
-#         message()
+def message():
+    try:
+        prediction_message = PredictionMessage(TOKEN, CHANNEL)
+        asyncio.run(prediction_message.run())
+    except Exception as e:
+        print("Error")
+        raise e
+        message()
 
-#     # end try
+    # end try
 
 
-# thread = Thread(target=message)
-# thread.start()
+thread = Thread(target=message)
+thread.start()
 
 binance = ccxt.binance()
 

@@ -9,13 +9,13 @@ import tracemalloc
 tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 
-load_dotenv()
+# load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
+# TOKEN = os.getenv('DISCORD_TOKEN')
+# CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
 
 class PredictionMessage:
@@ -139,6 +139,6 @@ class PredictionMessage:
         await self.bot.start(self.token)
 
 
-# if __name__ == '__main__':
-prediction_message = PredictionMessage(TOKEN, CHANNEL)
-asyncio.run(prediction_message.run())
+# # if __name__ == '__main__':
+# prediction_message = PredictionMessage(TOKEN, CHANNEL)
+# asyncio.run(prediction_message.run())
