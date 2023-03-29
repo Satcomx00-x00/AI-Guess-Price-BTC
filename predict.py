@@ -22,7 +22,7 @@ import pandas as pd
 # import talib as ta
 from ta import add_all_ta_features
 from tensorflow.keras.models import load_model
-from SatcomDiscord import PredictionMessage
+# from SatcomDiscord import PredictionMessage
 from threading import Thread
 import asyncio
 # docker run -it --rm -e DISCORD_TOKEN=MTA5MDM4MjU4Mzg5Mzg1NjMwNg.GZajTp.s8xWLSqe16EztPZ47zq4xCkbDU36LUXfIwMA_E -e DISCORD_CHANNEL=1090381983244365904 satcomx00/ai-guess-price-btc:1.0

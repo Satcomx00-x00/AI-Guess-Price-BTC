@@ -10,7 +10,10 @@ tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
 from dotenv import load_dotenv
+
+
 load_dotenv()
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
@@ -84,10 +87,9 @@ class PredictionMessage:
             embed.add_field(name=key,
                             value="```" + str(value) + "```",
                             inline=True)
-            print(f'Sended !')
-
         embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(
             hours=2)
+        print(f'Sended !')
 
         await self.modify_embed_message(embed=embed)
 
