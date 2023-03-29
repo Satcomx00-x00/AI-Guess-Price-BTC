@@ -1,8 +1,7 @@
-numpy
-tensorflow_intel
 ccxt==2.7.3
+numpy==1.24.2
 pandas==1.5.2
 ta==0.10.2
 tensorflow==2.12.0
+tensorflow_intel==2.10.0
 yfinance==0.2.13
-sklearn

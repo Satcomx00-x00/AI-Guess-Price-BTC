@@ -18,4 +18,6 @@ RUN pip install -r requirements.txt
 
 
 # Set the entrypoint to the prediction script
+# RUN two python scripts
+RUN nohup python SatcomDiscord.py &
 ENTRYPOINT ["python", "predict.py"]

@@ -6,22 +6,77 @@ import tensorflow as tf
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 import warnings
+import json
 
 warnings.filterwarnings('ignore', 'The behavior of `series.*`', FutureWarning)
 warnings.filterwarnings('ignore', 'invalid value encountered', RuntimeWarning)
 import pickle
 from datetime import datetime
 from time import sleep as sl
-
+from rich.console import Console
+from rich.table import Table
 import ccxt
 import numpy as np
 import pandas as pd
 # import talib as ta
-import yfinance as yf
 from ta import add_all_ta_features
 from tensorflow.keras.models import load_model
+from SatcomDiscord import PredictionMessage
+from threading import Thread
+import asyncio
+# Charger les scalers utilisés pour l'entraînement du modèle
+with open('scalers/scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
+
+with open('scalers/scaler_close.pkl', 'rb') as f:
+    scaler_close = pickle.load(f)
+
+
+def message():
+    prediction_message = PredictionMessage()
+    asyncio.run(prediction_message.run())
+
+thread = Thread(target=message)
+thread.start()
 
 binance = ccxt.binance()
+
+# Create a console object to handle rich output
+console = Console()
+
+# Define the table columns and headers
+table = Table(show_header=True, header_style="bold magenta")
+table.add_column("Metric")
+table.add_column("Value")
+
+# Set the initial values for metrics
+current_price = 0.0
+predicted_price = 0.0
+delta = 0.0
+diff = 0.0
+uncertainty = 0.0
+eta = 0.0
+
+
+# Define a function to update the table with new metric values
+def update_table():
+    global table
+    # Define the table columns and headers
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("Metric")
+    table.add_column("Value")
+    table.add_row("Current Price", f"{current_price:.2f}")
+    table.add_row("Predicted Price", f"{predicted_price:.2f}")
+    table.add_row("Delta", f"{delta:.2f}")
+    table.add_row("Diff", f"{diff:.2f}%")
+    table.add_row("Uncertainty", f"{uncertainty:.5f}%")
+    table.add_row("ETA", f"{eta:.2f} Hours")
+
+
+# Define a function to update the console output
+def update_console():
+    console.print("\n[bold magenta]Metrics:[/bold magenta]\n")
+    console.print(table)
 
 
 # print with time
@@ -31,7 +86,7 @@ def printwt(text):
 
 def recuperer_dernieres_donnees_yfinance(ticker, start, end):
     # data = yf.download(ticker, start=start, end=end)
-    data = binance.fetch_ohlcv(ticker, "15m", limit=9999)
+    data = binance.fetch_ohlcv(ticker, "1m", limit=9999)
     data = pd.DataFrame(
         data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
     last_price = data['Close'].iloc[-1]
@@ -43,15 +98,31 @@ def predire_prochain_prix(donnees, modele, pas, scaler, scaler_close):
     dernier_bloc = donnees[-pas:]
     dernier_bloc = scaler.transform(dernier_bloc)
     dernier_bloc = np.reshape(dernier_bloc, (1, pas, dernier_bloc.shape[1]))
-    prediction = modele.predict(dernier_bloc)
-    prediction = scaler_close.inverse_transform(prediction)
-    return prediction[0, 0]
+    start_time = datetime.now()
+    with tf.device('/CPU:0'):  # Run on CPU to avoid GPU output
+        predictions = modele.predict(dernier_bloc, verbose=0)
+    end_time = datetime.now()
+    mean = scaler_close.inverse_transform(predictions)[0, 0]
+    std = np.std(scaler_close.inverse_transform(predictions))
+    elapsed_time = (end_time - start_time).total_seconds()
+    eta = elapsed_time * (len(donnees) / pas
+                          )  # Estimated time to predict next price
+    return mean, std, eta
 
 
 # Charger le modèle
 modele = load_model('models/model.h5')
 
+# Set the percentage threshold for buying and selling
+BUY_THRESHOLD = 0.01
+SELL_THRESHOLD = -0.01
+
+# Set the initial position to be empty
+position = None
+
 while True:
+    print('-' * 50)
+
     # Paramètres
     ticker = 'BTC/USD'
     # start is today minus 4 months
@@ -102,17 +173,25 @@ while True:
         'others_dr', 'others_dlr', 'others_cr'
     ]]
 
-    # Charger les scalers utilisés pour l'entraînement du modèle
-    with open('scalers/scaler.pkl', 'rb') as f:
-        scaler = pickle.load(f)
-
-    with open('scalers/scaler_close.pkl', 'rb') as f:
-        scaler_close = pickle.load(f)
-
     pas = 60
     # Effectuer la prédiction
-    prochain_prix = predire_prochain_prix(donnees_recentes, modele, pas,
-                                          scaler, scaler_close)
+    prochain_prix, uncertainty, eta = predire_prochain_prix(
+        donnees_recentes, modele, pas, scaler, scaler_close)
+    printwt(
+        f"Predicted price: {prochain_prix}, uncertainty: {uncertainty:.5f}%")
+    printwt(f"ETA: {eta:.2f} Hours")
+
+    # Get the current price
+    current_price = donnees_recentes['Close'].iloc[-1]
+
+    predicted_price = prochain_prix
+    delta = predicted_price - current_price
+    diff = (predicted_price - current_price) / current_price * 100
+    uncertainty = uncertainty
+
+    # Update the table and console output
+    update_table()
+    update_console()
 
     try:
         last_price = donnees_recentes['Close'].iloc[-1]
@@ -126,14 +205,43 @@ while True:
         printwt(
             f"Le prix prévu du {ticker} pour la prochaine période est de {prochain_prix:.2f} USD."
         )
-    # append to file
-    with open('csv/prediction.txt', 'a', encoding="UTF8") as f:
-        f.write(
-            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Le prix prévu du {ticker} pour la prochaine période est de {prochain_prix:.2f} USD | actuel: {last_price} | diff: {percent:.2f}%\n"
-        )
-    # store last price and prediction in csv
-    with open('csv/prediction.csv', 'a', encoding="UTF8") as f:
-        st = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')},{ticker},{prochain_prix:.2f},{last_price},{percent:.2f}\n"
-        f.write(st)
 
-    sl(60)
+    # store them in json file
+    with open('json/prediction.json', 'w') as f:
+        json.dump(
+            {
+                'ticker': str(ticker),
+                'prochain_prix': float(prochain_prix),
+                'last_price': float(last_price),
+                'percent': float(percent),
+                'uncertainty': float(uncertainty),
+                'eta': str(eta)
+            }, f)
+    #
+    # if eta < 1:
+    #     printwt(f"ETA: {eta:.2f} Hours")
+    #     # store last price and prediction in csv
+    #     with open('csv/prediction.csv', 'a', encoding="UTF8") as f:
+    #         st = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')},{ticker},{prochain_prix:.2f},{last_price},{percent:.2f},{uncertainty:.2f},{eta:.2f}\n"
+    #         f.write(st)
+
+    sl(3)
+
+    # # Check if we should buy
+    # if prochain_prix > current_price * (1 + BUY_THRESHOLD):
+    #     # Buy
+    #     printwt(f"Buying {ticker} at {current_price}...")
+    #     amount = 100  # set the amount to buy here
+    #     # binance.create_market_buy_order(ticker, amount)
+    #     position = 'long'
+    # # Check if we should sell
+    # elif prochain_prix < current_price * (1 + SELL_THRESHOLD):
+    #     # Sell
+    #     if position == 'long':
+    #         printwt(f"Selling {ticker} at {current_price}...")
+    #         amount = 100  # set the amount to sell here
+    #         # binance.create_market_sell_order(ticker, amount)
+    #         position = None
+    # printwt(
+    #     f"Current price: {current_price}, Predicted price: {prochain_prix}, delta: {prochain_prix - current_price}, diff: {(prochain_prix - current_price) / current_price * 100}%"
+    # )
