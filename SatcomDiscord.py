@@ -12,10 +12,11 @@ tracemalloc.start()
 
 load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL_ID = int(os.getenv('DISCORD_CHANNEL_ID'))
+# TOKEN = os.getenv('DISCORD_TOKEN')
+# CHANNEL_ID = int(os.getenv('DISCORD_CHANNEL_ID'))
 
-
+TOKEN='MTA5MDM4MjU4Mzg5Mzg1NjMwNg.GhOwg8.uDx_yjf2liPGUpmq34Zhman3AaSWNYAqH2XAts'
+CHANNEL_ID=1090381983244365904
 
 class PredictionMessage:
 
