@@ -24,8 +24,8 @@ from tensorflow.keras.models import load_model
 from SatcomDiscord import PredictionMessage
 from threading import Thread
 import asyncio
+# 
 # import argparse
-
 # parser = argparse.ArgumentParser(prog='AI-Guess-Bot',
 #                                  description='Cool Prog',
 #                                  epilog='Text at the bottom of help')

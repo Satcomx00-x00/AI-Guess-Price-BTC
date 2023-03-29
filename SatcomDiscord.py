@@ -27,9 +27,6 @@ class PredictionMessage:
     async def modify_message(self, new_content):
         await self.message.edit(content=new_content)
 
-    async def modify_embed_message(self, embed):
-        await self.message.edit(embed=embed)
-
     async def on_ready(self):
 
         print(f'{self.bot.user} has connected to Discord!')
