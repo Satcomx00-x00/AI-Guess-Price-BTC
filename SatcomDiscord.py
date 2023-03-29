@@ -10,10 +10,10 @@ tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
 from dotenv import load_dotenv
-
-
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
+
 
 class PredictionMessage:
 
@@ -53,7 +53,7 @@ class PredictionMessage:
             embed = discord.Embed(title='Prediction',
                                   description='New prediction available',
                                   color=0x00ff00)
-            
+
             for key, value in data.items():
                 embed.add_field(name=key, value=value, inline=True)
             self.message = await self.send_embed_message(embed)
@@ -61,7 +61,6 @@ class PredictionMessage:
             # Store the message ID for future modification
             with open('message_id.txt', 'w') as f:
                 f.write(str(self.message.id))
-
 
     async def update_prediction(self):
         print('Updating prediction...')

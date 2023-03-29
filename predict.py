@@ -10,6 +10,7 @@ import json
 
 warnings.filterwarnings('ignore', 'The behavior of `series.*`', FutureWarning)
 warnings.filterwarnings('ignore', 'invalid value encountered', RuntimeWarning)
+
 import pickle
 from datetime import datetime
 from time import sleep as sl
