@@ -6,7 +6,7 @@ matplotlib==3.6.2
 pandas==1.5.2
 python-dotenv==1.0.0
 rich==13.3.3
-scikit_learn==1.2.2
+scikit-learn
 ta==0.10.2
 # tensorflow_intel==2.10.0rc4
 yfinance==0.2.13
