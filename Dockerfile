@@ -12,7 +12,7 @@ RUN python -m pip install --upgrade pip
 
 COPY * ./
 # Install any necessary dependencies
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --force
 
 # Copy the prediction script to the working directory
 
