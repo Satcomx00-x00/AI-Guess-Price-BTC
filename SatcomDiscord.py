@@ -101,11 +101,18 @@ class PredictionMessage:
     async def start_timer(self):
         # print the current time every 3 seconds
         await self.bot.wait_until_ready()
-        await asyncio.sleep(10)
+        await asyncio.sleep(4)
+        try:
 
-        while not self.bot.is_closed():
-            await self.update_prediction()
-            await asyncio.sleep(2)
+            while not self.bot.is_closed():
+                await self.update_prediction()
+                await asyncio.sleep(2)
+        except Exception as e:
+            # send the error in the channel
+            print(e)
+            channel = self.bot.get_channel(self.channel_id)
+            self.message = await channel.send(e)
+
 
     async def run(self):
         print('Starting bot...')

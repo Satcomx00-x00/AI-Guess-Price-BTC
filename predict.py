@@ -41,6 +41,8 @@ import asyncio
 #                     help='The channel ID to send messages to')
 # args = parser.parse_args()
 from dotenv import load_dotenv
+
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 CHANNEL = os.getenv('DISCORD_CHANNEL')
 
@@ -246,7 +248,7 @@ while True:
                 'uncertainty': float(uncertainty),
                 'eta': str(eta)
             }, f)
-    #
+
     # if eta < 1:
     #     printwt(f"ETA: {eta:.2f} Hours")
     #     # store last price and prediction in csv
