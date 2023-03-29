@@ -47,12 +47,12 @@ import asyncio
 # CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
 
-# # Charger les scalers utilisés pour l'entraînement du modèle
-# with open('scalers/scaler.pkl', 'rb') as f:
-#     scaler = pickle.load(f)
+# Charger les scalers utilisés pour l'entraînement du modèle
+with open('scalers/scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
 
-# with open('scalers/scaler_close.pkl', 'rb') as f:
-#     scaler_close = pickle.load(f)
+with open('scalers/scaler_close.pkl', 'rb') as f:
+    scaler_close = pickle.load(f)
 
 
 # def message():
