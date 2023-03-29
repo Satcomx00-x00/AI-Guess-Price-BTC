@@ -33,8 +33,16 @@ with open('scalers/scaler_close.pkl', 'rb') as f:
 
 
 def message():
-    prediction_message = PredictionMessage()
-    asyncio.run(prediction_message.run())
+    try:
+        prediction_message = PredictionMessage()
+        asyncio.run(prediction_message.run())
+    except Exception as e:
+        print("Error")
+        raise e
+        message()
+    
+    # end try
+    
 
 thread = Thread(target=message)
 thread.start()
@@ -225,7 +233,7 @@ while True:
     #         st = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')},{ticker},{prochain_prix:.2f},{last_price},{percent:.2f},{uncertainty:.2f},{eta:.2f}\n"
     #         f.write(st)
 
-    sl(3)
+    sl(5)
 
     # # Check if we should buy
     # if prochain_prix > current_price * (1 + BUY_THRESHOLD):
