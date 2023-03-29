@@ -53,13 +53,16 @@ class PredictionMessage:
             print('Sending initial message...')
             with open('json/prediction.json', 'r') as f:
                 data = json.load(f)
+            print(json.dumps(data, indent=4))
             embed = discord.Embed(title='Prediction',
                                   description='New prediction available',
                                   color=0x00ff00)
 
             for key, value in data.items():
                 embed.add_field(name=key, value=value, inline=True)
+            print(embed)
             self.message = await self.send_embed_message(embed)
+            print(self.message)
 
             # Store the message ID for future modification
             with open('message_id.txt', 'w') as f:
