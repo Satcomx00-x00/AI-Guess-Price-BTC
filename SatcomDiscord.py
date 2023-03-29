@@ -3,13 +3,17 @@ from discord.ext import commands
 import datetime
 import os, json
 import asyncio
-
 # RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 import tracemalloc
 
 tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
+from dotenv import load_dotenv
+
+
+TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = os.getenv('DISCORD_CHANNEL')
 
 class PredictionMessage:
 
