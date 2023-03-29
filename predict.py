@@ -41,35 +41,34 @@ import asyncio
 #                     required=True,
 #                     help='The channel ID to send messages to')
 # args = parser.parse_args()
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
+
+# TOKEN = os.getenv('DISCORD_TOKEN')
+# CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
+# # Charger les scalers utilisés pour l'entraînement du modèle
+# with open('scalers/scaler.pkl', 'rb') as f:
+#     scaler = pickle.load(f)
+
+# with open('scalers/scaler_close.pkl', 'rb') as f:
+#     scaler_close = pickle.load(f)
 
 
-# Charger les scalers utilisés pour l'entraînement du modèle
-with open('scalers/scaler.pkl', 'rb') as f:
-    scaler = pickle.load(f)
+# def message():
+#     try:
+#         prediction_message = PredictionMessage(TOKEN, CHANNEL)
+#         asyncio.run(prediction_message.run())
+#     except Exception as e:
+#         print("Error")
+#         raise e
+#         message()
 
-with open('scalers/scaler_close.pkl', 'rb') as f:
-    scaler_close = pickle.load(f)
-
-
-def message():
-    try:
-        prediction_message = PredictionMessage(TOKEN, CHANNEL)
-        asyncio.run(prediction_message.run())
-    except Exception as e:
-        print("Error")
-        raise e
-        message()
-
-    # end try
+#     # end try
 
 
-thread = Thread(target=message)
-thread.start()
+# thread = Thread(target=message)
+# thread.start()
 
 binance = ccxt.binance()
 

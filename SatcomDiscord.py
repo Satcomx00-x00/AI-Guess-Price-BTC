@@ -9,11 +9,11 @@ import tracemalloc
 tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
-# TOKEN = os.getenv('DISCORD_TOKEN')
-# CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
+TOKEN = os.getenv('DISCORD_TOKEN')
+CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
 class PredictionMessage:
 
