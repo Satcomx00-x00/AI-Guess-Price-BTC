@@ -2,7 +2,7 @@
 FROM python:3.10
 
 # Set the working directory to /app
-WORKDIR /app
+WORKDIR /home/container
 
 # Clone the project from GitHub
 RUN git clone https://github.com/Satcomx00-x00/AI-Guess-Price-BTC.git .
