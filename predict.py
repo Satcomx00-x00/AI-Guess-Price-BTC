@@ -44,9 +44,8 @@ import asyncio
 # args = parser.parse_args()
 from dotenv import load_dotenv
 
-TOKEN = os.getenv('DISCORD_TOKEN')
-CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
-
+TOKEN = str(os.getenv('DISCORD_TOKEN'))
+CHANNEL = int(os.getenv('DISCORD_CHANNEL_ID'))
 
 # Charger les scalers utilisés pour l'entraînement du modèle
 with open('scalers/scaler.pkl', 'rb') as f:
