@@ -14,8 +14,8 @@ COPY * ./
 # Install any necessary dependencies
 RUN pip install -r requirements.txt
 
-# Copy the prediction script to the working directory
-
+# python: can't open file '/home/container/predict.py': [Errno 2] No such file or directory^
+COPY predict.py ./
 
 # Set the entrypoint to the prediction script
 # RUN two python scripts
