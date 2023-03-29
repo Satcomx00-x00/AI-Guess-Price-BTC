@@ -21,8 +21,8 @@ CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 class PredictionMessage:
 
     def __init__(self, token, channel_id):
-        self.token = token
-        self.channel_id = channel_id
+        self.token = str(token)
+        self.channel_id = int(channel_id)
         self.bot = None
         self.message = None
 
