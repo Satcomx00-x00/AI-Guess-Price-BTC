@@ -24,6 +24,24 @@ from tensorflow.keras.models import load_model
 from SatcomDiscord import PredictionMessage
 from threading import Thread
 import asyncio
+import argparse
+
+parser = argparse.ArgumentParser(prog='AI-Guess-Bot',
+                                 description='Cool Prog',
+                                 epilog='Text at the bottom of help')
+parser.add_argument('-t',
+                    '--token',
+                    type=str,
+                    required=True,
+                    help='The Discord bot token')
+parser.add_argument('-c',
+                    '--channel',
+                    type=int,
+                    required=True,
+                    help='The channel ID to send messages to')
+
+args = parser.parse_args()
+
 # Charger les scalers utilisés pour l'entraînement du modèle
 with open('scalers/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
@@ -34,15 +52,15 @@ with open('scalers/scaler_close.pkl', 'rb') as f:
 
 def message():
     try:
-        prediction_message = PredictionMessage()
+        prediction_message = PredictionMessage(args.token, args.channel)
         asyncio.run(prediction_message.run())
     except Exception as e:
         print("Error")
         raise e
         message()
-    
+
     # end try
-    
+
 
 thread = Thread(target=message)
 thread.start()

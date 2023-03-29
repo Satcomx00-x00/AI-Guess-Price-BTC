@@ -1,28 +1,21 @@
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 import datetime
 import os, json
 import asyncio
+
 # RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 import tracemalloc
 
 tracemalloc.start()
 # r'C:\Users\MrBios\Documents\Development\test\production\Docker\csv\prediction.csv'
 
-load_dotenv()
-
-# TOKEN = os.getenv('DISCORD_TOKEN')
-# CHANNEL_ID = int(os.getenv('DISCORD_CHANNEL_ID'))
-
-TOKEN='MTA5MDM4MjU4Mzg5Mzg1NjMwNg.GhOwg8.uDx_yjf2liPGUpmq34Zhman3AaSWNYAqH2XAts'
-CHANNEL_ID=1090381983244365904
 
 class PredictionMessage:
 
-    def __init__(self):
-        self.token = TOKEN
-        self.channel_id = CHANNEL_ID
+    def __init__(self, token, channel_id):
+        self.token = token
+        self.channel_id = channel_id
         self.bot = None
         self.message = None
 
@@ -30,8 +23,6 @@ class PredictionMessage:
         channel = self.bot.get_channel(self.channel_id)
         self.message = await channel.send(embed=msg)
         return self.message
-
-
 
     async def modify_message(self, new_content):
         await self.message.edit(content=new_content)
@@ -96,8 +87,8 @@ class PredictionMessage:
         # add timestamp to the embed
         # embed.timestamp = datetime.utcnow()
         # set timestamp + 2 hours
-        embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(hours=2)
-        
+        embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(
+            hours=2)
 
         await self.modify_embed_message(embed=embed)
 
