@@ -78,7 +78,7 @@ class PredictionMessage:
             if isinstance(value, float):
                 value = round(value, 3)
             if key == 'eta':
-                value = round(float(value) * 60, 3)
+                value = round(float(value) / 60, 3)
             # same for percentage
             if key == 'percent':
                 # if prediction is positive, add a plus sign
@@ -91,8 +91,6 @@ class PredictionMessage:
                             inline=True)
         embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(
             hours=2)
-        print(f'Sended !')
-
         await self.modify_embed_message(embed=embed)
 
     async def on_message(self, message):
@@ -108,7 +106,7 @@ class PredictionMessage:
         try:
             while not self.bot.is_closed():
                 await self.update_prediction()
-                await asyncio.sleep(5)
+                await asyncio.sleep(30)
         except Exception as e:
             # send the error in the channel
             print(e)

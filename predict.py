@@ -256,7 +256,7 @@ while True:
     #         st = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')},{ticker},{prochain_prix:.2f},{last_price},{percent:.2f},{uncertainty:.2f},{eta:.2f}\n"
     #         f.write(st)
 
-    sl(5)
+    sl(60)
 
     # # Check if we should buy
     # if prochain_prix > current_price * (1 + BUY_THRESHOLD):
