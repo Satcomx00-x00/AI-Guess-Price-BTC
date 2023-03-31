@@ -89,7 +89,15 @@ class PredictionMessage:
             if isinstance(value, float):
                 value = round(value, 3)
             if key == 'eta':
-                value = round(float(value) / 60, 3)
+                # value = round(float(value) / 60, 3)
+                # calcul in hours
+                # value = round(float(value) / 3600, 3)
+                # 18.81 hours in hh:mm:ss
+                
+                value = float(value)
+                value = str(datetime.timedelta(seconds=value * 3600))
+
+                
             # same for percentage
             if key == 'percent':
                 # if prediction is positive, add a plus sign

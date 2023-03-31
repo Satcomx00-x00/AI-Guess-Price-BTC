@@ -126,6 +126,20 @@ def recuperer_dernieres_donnees_yfinance(ticker, start, end):
     return data
 
 
+# def predire_prochain_prix(donnees, modele, pas, scaler, scaler_close):
+#     dernier_bloc = donnees[-pas:]
+#     dernier_bloc = scaler.transform(dernier_bloc)
+#     dernier_bloc = np.reshape(dernier_bloc, (1, pas, dernier_bloc.shape[1]))
+#     start_time = datetime.now()
+#     with tf.device('/CPU:0'):  # Run on CPU to avoid GPU output
+#         predictions = modele.predict(dernier_bloc, verbose=0)
+#     end_time = datetime.now()
+#     mean = scaler_close.inverse_transform(predictions)[0, 0]
+#     std = np.std(scaler_close.inverse_transform(predictions))
+#     elapsed_time = (end_time - start_time).total_seconds()
+#     eta = elapsed_time * (len(donnees) / pas
+#                           )  # Estimated time to predict next price
+#     return mean, std, eta
 def predire_prochain_prix(donnees, modele, pas, scaler, scaler_close):
     dernier_bloc = donnees[-pas:]
     dernier_bloc = scaler.transform(dernier_bloc)
@@ -137,8 +151,9 @@ def predire_prochain_prix(donnees, modele, pas, scaler, scaler_close):
     mean = scaler_close.inverse_transform(predictions)[0, 0]
     std = np.std(scaler_close.inverse_transform(predictions))
     elapsed_time = (end_time - start_time).total_seconds()
-    eta = elapsed_time * (len(donnees) / pas
-                          )  # Estimated time to predict next price
+    # Calculate the estimated time to predict next price based on the elapsed time and the number of iterations left
+    remaining_iterations = len(donnees) // pas
+    eta = remaining_iterations * elapsed_time
     return mean, std, eta
 
 
