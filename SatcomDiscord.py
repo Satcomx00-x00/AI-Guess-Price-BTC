@@ -16,6 +16,17 @@ tracemalloc.start()
 # TOKEN = os.getenv('DISCORD_TOKEN')
 # CHANNEL = os.getenv('DISCORD_CHANNEL_ID')
 
+# {"ticker": "BTC/USD", "prochain_prix": 29247.90234375, "last_price": 28208.5, "percent": 0.03684713273481397, "uncertainty": 0.0, "eta": "1.074975"}
+# make a dict of key with a name
+names = {
+    'ticker': 'Ticker',
+    'prochain_prix': 'Next Price',
+    'last_price': 'Last Price',
+    'percent': 'Percent',
+    'uncertainty': 'Uncertainty',
+    'eta': 'ETA'
+}
+
 
 class PredictionMessage:
 
@@ -86,7 +97,7 @@ class PredictionMessage:
                     value = '+' + str(round(float(value) * 100, 3)) + '%'
                 else:
                     value = str(round(float(value) * 100, 3)) + '%'
-            embed.add_field(name=key,
+            embed.add_field(name=names[key],
                             value="```" + str(value) + "```",
                             inline=True)
         embed.timestamp = datetime.datetime.utcnow() + datetime.timedelta(
