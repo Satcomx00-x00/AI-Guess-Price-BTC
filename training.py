@@ -17,12 +17,25 @@ begin_5m = datetime.today() - pd.DateOffset(months=1)
 
 def recuperer_donnees_yfinance(ticker, start, end):
     # PANDAS READ csv
-    data = pd.read_csv(r'C:\Users\MrBios\Documents\Development\test\csv\bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv')
+    data = pd.read_csv(
+        r'C:\Users\MrBios\Documents\Development\test\csv\bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv',
+        dtype={
+            'Timestamp': 'int32',
+            'Open': 'float32',
+            'High': 'float32',
+            'Low': 'float32',
+            'Close': 'float32',
+            'Volume_(BTC)': 'float32',
+            'Volume_(Currency)': 'float32',
+            'Weighted_Price': 'float32'
+        })
     # remove all rows with NaN
     data = data.dropna()
     # remove two last columns
     data = data.iloc[:, :-2]
-    # rename columns 
+    # print columns
+    print(data.columns)
+    # rename columns
     data.columns = ['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume']
 
     # data = yf.download(ticker, start=begin_1h, interval="60m")
@@ -43,7 +56,7 @@ donnees = add_all_ta_features(donnees,
                               high="High",
                               low="Low",
                               close="Close",
-                              volume="Volume",
+                              volume="Volume", 
                               fillna=True)
 
 # Supprimer les lignes avec des valeurs NaN
@@ -51,7 +64,7 @@ donnees = donnees.dropna()
 
 # Sélectionner les colonnes nécessaires
 donnees = donnees[[
-    'Open', 'High', 'Low', 'Close', 'Volume', 'volume_adi', 'volume_obv',
+    'Timestamp','Open', 'High', 'Low', 'Close', 'Volume', 'volume_adi', 'volume_obv',
     'volume_cmf', 'volume_fi', 'volume_em', 'volume_sma_em', 'volume_vpt',
     'volume_vwap', 'volume_mfi', 'volume_nvi', 'volatility_bbm',
     'volatility_bbh', 'volatility_bbl', 'volatility_bbw', 'volatility_bbp',
@@ -77,7 +90,9 @@ donnees = donnees[[
     'others_dlr', 'others_cr'
 ]]
 # save data to csv file with donnees as header
-donnees.to_csv(r'C:\Users\MrBios\Documents\Development\test\csv\Featured_bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv', index=False)
+donnees.to_csv(
+    r'C:\Users\MrBios\Documents\Development\test\csv\Featured_bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv',
+    index=False)
 
 # Normaliser les données
 scaler = MinMaxScaler()
@@ -98,6 +113,7 @@ def preparer_donnees(donnees, donnees_close, pas):
 
 
 pas = 60
+
 X, y = preparer_donnees(donnees_normalisees, donnees_close_normalisees, pas)
 
 # Diviser les données en ensembles d'entraînement et de test
