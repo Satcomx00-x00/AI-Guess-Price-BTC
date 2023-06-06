@@ -118,7 +118,7 @@ def printwt(text):
 
 def recuperer_dernieres_donnees_yfinance(ticker, start, end):
     # data = yf.download(ticker, start=start, end=end)
-    data = binance.fetch_ohlcv(ticker, "1m", limit=9999)
+    data = binance.fetch_ohlcv(ticker, "5m", limit=9999)
     data = pd.DataFrame(
         data, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
     last_price = data['Close'].iloc[-1]
