@@ -1,17 +1,11 @@
+tensorflow==2.10.0
+ccxt==3.1.43
+discord.py==2.3.0
+matplotlib==3.7.1
 numpy
-tensorflow==2.12.0
-ccxt==2.7.3
-discord.py==2.2.2
-matplotlib==3.6.2
-pandas==1.5.2
+pandas==2.0.2
 python-dotenv==1.0.0
-rich==13.3.3
-scikit-learn
+rich==13.4.2
+scikit_learn==1.2.2
 ta==0.10.2
-# tensorflow_intel==2.10.0rc4
-yfinance==0.2.13
-
-
-
-
-
+yfinance==0.2.20
