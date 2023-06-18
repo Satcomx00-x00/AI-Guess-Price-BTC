@@ -1,2 +1,0 @@
-timestamp,symbol,predicted_price,actual_price,accuracy,uncertainty,eta,market_performance
-2023-03-28 22:39:35.086313,BTC/USD,28427.11,27358.1,0.04,0.0,7.94,-0.0376053000111514
