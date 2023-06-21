@@ -10,11 +10,14 @@ import ta
 import joblib
 
 # Load the Bitcoin price data
-bitcoin_data = pd.read_csv(r'C:\Users\MrBios\Documents\Development\test\csv\bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv')
+bitcoin_data = pd.read_csv(r'C:\Users\MrBios\Documents\Development\IA-BTC-2023\csv\bitstampUSD_1-min_data_2012-01-01_to_2021-03-31.csv')
 
 # Drop missing values
 bitcoin_data.dropna(inplace=True)
-
+# drop all values before 2017
+bitcoin_data = bitcoin_data[bitcoin_data['Timestamp'] >= 1483228800]
+# drop all values after 2021
+# bitcoin_data = bitcoin_data[bitcoin_data['Timestamp'] < 1617235200]
 # change the name of the columns
 bitcoin_data.columns = ['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume_(BTC)', 'Volume_(Currency)', 'Weighted_Price']
 # change the name of the column 'Volume_(Currency)' to 'Volume_Currency' to avoid problems with the library ta
@@ -24,6 +27,7 @@ bitcoin_data.drop(columns=['Volume_(Currency)'], inplace=True)
 
 # Keep the necessary columns
 bitcoin_data = bitcoin_data[['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume', 'Weighted_Price']]
+bitcoin_data = bitcoin_data.tail(30000)
 print(bitcoin_data.shape)
 # Convert Timestamp to datetime format
 bitcoin_data['Timestamp'] = pd.to_datetime(bitcoin_data['Timestamp'], unit='s')
